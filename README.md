@@ -49,14 +49,14 @@ php artisan serve
 ### API Endpoints
 
 ## Products
-Method	        Endpoint	        Access
-GET	        /api/products	    Authenticated users
-POST	    /api/products	    Admin only
-PUT	        /api/products/{id}	Admin only
-DELETE	    /api/products/{id}	Admin only (soft delete)
+### Method	        Endpoint	        Access
+    GET	        /api/products	    Authenticated users
+    POST	    /api/products	    Admin only
+    PUT	        /api/products/{id}	Admin only
+    DELETE	    /api/products/{id}	Admin only (soft delete)
 
 ### Orders
-Method	        Endpoint	        Access
-GET	        /api/orders	        Authenticated users
-POST	    /api/orders	        Authenticated users
-GET	        /api/orders/{id}	Order owner only
+### Method	        Endpoint	        Access
+    GET	        /api/orders	        Authenticated users
+    POST	    /api/orders	        Authenticated users
+    GET	        /api/orders/{id}	Order owner only
