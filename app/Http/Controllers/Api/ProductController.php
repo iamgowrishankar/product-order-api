@@ -32,6 +32,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $this->authorize('create', $request);
+
         $product = $this->productService->create($request->validated());
 
         return new ProductResource($product);
@@ -52,7 +54,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $this->authorize('delete', $product);
-        
+
         $this->productService->delete($product);
 
         return response()->json([
