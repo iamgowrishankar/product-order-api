@@ -12,8 +12,12 @@ class OrderItemResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'product'  => $this->product->name,
+            'price'    => $this->price,
+            'quantity' => $this->quantity,
+        ];
     }
 }

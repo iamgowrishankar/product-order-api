@@ -15,7 +15,6 @@ class ProductController extends Controller
 
     public function __construct(private ProductService $productService)
     {
-        $this->authorizeResource(Product::class, 'product');
     }
 
     /**
@@ -40,6 +39,8 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
+        $this->authorize('update', $product);
+
         $product = $this->productService->update($product, $request->validated());
 
         return new ProductResource($product);
@@ -50,10 +51,19 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->authorize('delete', $product);
+        
         $this->productService->delete($product);
 
         return response()->json([
             'message' => 'Product deleted successfully',
         ]);
+    }
+
+    public function show(Product $product)
+    {
+        $this->authorize('view', $product);
+
+        return new ProductResource($product);
     }
 }

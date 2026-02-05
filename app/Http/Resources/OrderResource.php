@@ -7,13 +7,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'           => $this->id,
+            'order_number' => $this->order_number,
+            'total_amount' => $this->total_amount,
+            'status'       => $this->status,
+            'items'        => OrderItemResource::collection($this->whenLoaded('items')),
+            'created_at'   => $this->created_at,
+        ];
     }
 }
