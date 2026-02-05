@@ -8,14 +8,23 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * API controller for order operations (list, create, view).
+ */
 class OrderController extends Controller
 {
     public function __construct(private OrderService $orderService)
     {
     }
 
-    public function index()
+    /**
+     * List orders for the authenticated user.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index(): AnonymousResourceCollection
     {
         $user = request()->user();
 
@@ -27,7 +36,13 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
-    public function store(StoreOrderRequest $request)
+    /**
+     * Create a new order for the authenticated user.
+     *
+     * @param  \App\Http\Requests\Order\StoreOrderRequest  $request
+     * @return \App\Http\Resources\OrderResource
+     */
+    public function store(StoreOrderRequest $request): OrderResource
     {
         $order = $this->orderService->createOrder(
             $request->user(),
@@ -37,7 +52,13 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
-    public function show(Order $order)
+    /**
+     * Show a specific order (authorization applied).
+     *
+     * @param  \App\Models\Order  $order
+     * @return \App\Http\Resources\OrderResource
+     */
+    public function show(Order $order): OrderResource
     {
         $this->authorize('view', $order);
         

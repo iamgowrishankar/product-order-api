@@ -9,6 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * User model.
+ *
+ * @property string $role
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,11 +49,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * User has many orders.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * Check if the user has an admin role.
+     *
+     * @return bool
+     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

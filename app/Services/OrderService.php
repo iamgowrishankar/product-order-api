@@ -9,8 +9,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * Service responsible for creating orders and related operations.
+ */
 class OrderService
 {
+    /**
+     * Create an order for the given user with provided data.
+     *
+     * Performs stock checks and decrements stock inside a DB transaction.
+     *
+     * @param  \Illuminate\Foundation\Auth\User|null  $user
+     * @param  array  $data
+     * @return \App\Models\Order
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
     public function createOrder($user, array $data): Order
     {
         return DB::transaction(function () use ($user, $data) {

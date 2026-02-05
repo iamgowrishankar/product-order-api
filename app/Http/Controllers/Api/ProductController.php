@@ -9,7 +9,12 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * API controller for product CRUD operations.
+ */
 class ProductController extends Controller
 {
 
@@ -18,9 +23,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a paginated listing of products.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return ProductResource::collection(
             Product::paginate(10)
@@ -28,9 +35,12 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created product.
+     *
+     * @param  \App\Http\Requests\Product\StoreProductRequest  $request
+     * @return \App\Http\Resources\ProductResource
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): ProductResource
     {
         $this->authorize('create', $request);
 
@@ -39,7 +49,14 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function update(UpdateProductRequest $request, Product $product)
+    /**
+     * Update the specified product.
+     *
+     * @param  \App\Http\Requests\Product\UpdateProductRequest  $request
+     * @param  \App\Models\Product  $product
+     * @return \App\Http\Resources\ProductResource
+     */
+    public function update(UpdateProductRequest $request, Product $product): ProductResource
     {
         $this->authorize('update', $product);
 
@@ -49,9 +66,12 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product (soft delete).
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): JsonResponse
     {
         $this->authorize('delete', $product);
 
@@ -62,7 +82,13 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Product $product)
+    /**
+     * Display the specified product.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \App\Http\Resources\ProductResource
+     */
+    public function show(Product $product): ProductResource
     {
         $this->authorize('view', $product);
 

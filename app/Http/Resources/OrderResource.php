@@ -5,8 +5,17 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Resource representation of an Order.
+ */
 class OrderResource extends JsonResource
 {
+    /**
+     * Transform the order into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
         return [

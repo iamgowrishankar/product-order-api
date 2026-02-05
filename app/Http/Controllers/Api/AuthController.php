@@ -8,8 +8,17 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse as HttpJsonResponse;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Authentication controller for API login/logout.
+ */
 class AuthController extends Controller
 {
+    /**
+     * Authenticate user and return an API token.
+     *
+     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login (LoginRequest $request): HttpJsonResponse
     {
         $user = User::where('email', $request->email)->first();
@@ -33,6 +42,11 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Revoke the current access token (logout).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(): HttpJsonResponse
     {
         request()->user()->currentAccessToken()->delete();

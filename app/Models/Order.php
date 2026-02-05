@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Order model.
+ */
 class Order extends Model
 {
     use HasFactory;
@@ -22,11 +25,21 @@ class Order extends Model
         'total_amount' => 'decimal:2',
     ];
 
+    /**
+     * Order belongs to a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Order has many items.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
